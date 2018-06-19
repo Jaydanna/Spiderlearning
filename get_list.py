@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import csv
@@ -9,10 +10,9 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 
 # base_url = "http://www.baidu.com/"
-#对应的chromedriver的放置目录
 driver = webdriver.Chrome(executable_path=(r'C:/Program Files (x86)/Google/Chrome/Application/chromedriver.exe'), chrome_options=chrome_options)
 
-csv_file = open('playlist.csv','w',newline='')
+csv_file = open('playlist.csv','w',newline='',encoding='utf-8')
 writer = csv.writer(csv_file)
 writer.writerow(['Title','Num','link'])
 
@@ -22,9 +22,7 @@ while url != 'javascript:void(0)':
     # 切换到内容的iframe
     driver.switch_to.frame("contentFrame")
     # 定位歌单标签
-    data = driver.find_element_by_id("m-pl-container").\
-        find_element_by_tag_name("li")
-    print(type(data))
+    data = driver.find_element_by_id("m-pl-container").find_elements_by_tag_name("li")
     # 解析一页中的所有歌单
     for i in range(len(data)):
         nb = data[i].find_element_by_class_name("nb").text
